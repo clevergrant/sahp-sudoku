@@ -17,24 +17,35 @@ module.exports = {
 		rules: [
 			{
 				test: /\.(ts|js)x?$/,
+				enforce: 'pre',
+				use: [ 'source-map-loader' ],
+			},
+			{
+				test: /\.(ts|js)x?$/,
 				exclude: /node_modules/,
-				use: {
-					loader: 'babel-loader',
-				},
+				use: [ 'babel-loader' ],
 			},
 			{
 				test: /\.css$/,
 				use: [ 'style-loader', 'css-loader' ],
 			},
+			{
+				test: /\.html$/,
+				loader: 'html-loader',
+			},
 		],
 	},
 	plugins: [
 		new HtmlWebpackPlugin({
-			template: './src/index.html',
+			template: 'src/index.html',
 		}),
 	],
 	devServer: {
-		contentBase: path.join(__dirname, 'public'),
+		static: {
+			directory: path.join(__dirname, 'public'),
+		},
+		compress: true,
+		port: 9000,
 	},
 	devtool: 'inline-source-map',
 }
